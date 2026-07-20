@@ -19,6 +19,30 @@ EOF
   arch-chroot /mnt systemctl enable NetworkManager
 }
 
+configure_luks_boot() {
+  log "Wiring LUKS into the initramfs and bootloader..."
+
+  # mkinitcpio needs the encrypt hook to prompt for the passphrase at boot;
+  # insert it right before the filesystems hook regardless of the rest of
+  # the default HOOKS array.
+  sed -i 's/\bfilesystems\b/encrypt filesystems/' /mnt/etc/mkinitcpio.conf
+  arch-chroot /mnt mkinitcpio -P
+
+  # GRUB itself needs cryptodisk support enabled, and the kernel command
+  # line needs to know which partition to unlock before mounting root.
+  if grep -q '^GRUB_ENABLE_CRYPTODISK=' /mnt/etc/default/grub; then
+    sed -i 's/^GRUB_ENABLE_CRYPTODISK=.*/GRUB_ENABLE_CRYPTODISK=y/' /mnt/etc/default/grub
+  elif grep -q '^#GRUB_ENABLE_CRYPTODISK=' /mnt/etc/default/grub; then
+    sed -i 's/^#GRUB_ENABLE_CRYPTODISK=.*/GRUB_ENABLE_CRYPTODISK=y/' /mnt/etc/default/grub
+  else
+    echo 'GRUB_ENABLE_CRYPTODISK=y' >> /mnt/etc/default/grub
+  fi
+
+  local root_uuid
+  root_uuid="$(blkid -s UUID -o value "$ROOT_PART")"
+  sed -i "s|^GRUB_CMDLINE_LINUX=\"|GRUB_CMDLINE_LINUX=\"cryptdevice=UUID=${root_uuid}:cryptroot |" /mnt/etc/default/grub
+}
+
 install_bootloader() {
   log "Installing bootloader ($BOOT_MODE)..."
   if [[ "$BOOT_MODE" == "uefi" ]]; then

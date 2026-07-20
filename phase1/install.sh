@@ -32,6 +32,7 @@ setup_luks
 setup_filesystems
 run_pacstrap
 configure_base_system
+configure_luks_boot
 install_bootloader
 
 arch-chroot /mnt passwd

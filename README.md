@@ -57,10 +57,8 @@ the order they run in.
 ## Testing
 
 This is developed and tested in a VM, not on the host: boot the Arch ISO in a VM, `git clone`
-this repo from inside the guest, and run `phase1/install.sh` there. The repo is private, so
-cloning from inside the ISO needs a GitHub personal access token (no `gh` auth is available
-on the live ISO) — either embed it in the clone URL or enter it as the password when
-prompted.
+this repo from inside the guest, and run `phase1/install.sh` there. The repo is public, so
+cloning from inside the ISO needs no authentication.
 
 ## Status
 
