@@ -8,7 +8,7 @@ set -euo pipefail
 HOSTNAME="hypr-light"
 TIMEZONE="Europe/Riga"
 LOCALE="en_US.UTF-8"
-BASE_PACKAGES=(base linux linux-firmware btrfs-progs grub networkmanager sudo git vim)
+BASE_PACKAGES=(base linux linux-firmware btrfs-progs cryptsetup grub networkmanager sudo git vim)
 # ----------------------------------------
 
 SCRIPT_DIR="$(cd -- "$(dirname -- "${BASH_SOURCE[0]}")" && pwd)"
