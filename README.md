@@ -5,8 +5,10 @@ script — no `archinstall`. Split into two phases:
 
 1. **Phase 1 — install** (`phase1/`): partition, encrypt, format, mount, `pacstrap` the base
    system, install the bootloader. Ends with a bootable, unconfigured base Arch system.
-2. **Phase 2 — post-configuration**: packages, Hyprland, services, dotfiles, user setup.
-   **Not started yet.**
+2. **Phase 2 — post-configuration** (`phase2/`): creates the real user, installs the
+   necessary package list, configures greetd/Hyprland autologin, enables laptop-hardware
+   services, deploys dotfiles. Runs automatically at the end of phase 1 (same ISO session,
+   before reboot), and is also independently re-runnable on its own.
 
 ## Requirements
 
@@ -25,11 +27,13 @@ cd Hypr-Light/phase1
 
 The script lists disks, prompts for the target disk, and requires typing `YES` to confirm
 before doing anything destructive. Everything after that (partitioning, encryption,
-formatting, `pacstrap`, bootloader install) is automatic.
+formatting, `pacstrap`, bootloader install, then phase 2) is automatic, aside from two
+password prompts (root, then the new user).
 
 Hostname, timezone, and locale are hardcoded constants at the top of `phase1/install.sh` —
 edit them there before running if the defaults (`hypr-light`, `Europe/Riga`, `en_US.UTF-8`)
-don't fit.
+don't fit. The username and package list are hardcoded constants at the top of
+`phase2/install.sh` (default username: `user`).
 
 ## Disk layout
 
@@ -48,11 +52,31 @@ phase1/
     ├── luks.sh       # LUKS format + open
     ├── filesystem.sh # mkfs.fat32/btrfs, @/@home subvolumes, mount
     ├── pacstrap.sh   # pacstrap + genfstab
-    └── bootloader.sh # hostname/timezone/locale, grub install (UEFI/BIOS)
+    └── bootloader.sh # hostname/timezone/locale, LUKS-aware initramfs, grub install (UEFI/BIOS)
+
+phase2/
+├── install.sh       # entrypoint — USERNAME + package list constants, sources lib/*.sh
+├── lib/
+│   ├── common.sh     # logging, require_root
+│   ├── user.sh       # useradd (wheel, zsh shell), sudoers, sets the user's password
+│   ├── packages.sh   # resolv.conf into /mnt, bootstrap yay, install the package list
+│   ├── desktop.sh    # /etc/greetd/config.toml (autologin into Hyprland), enable greetd
+│   ├── services.sh   # enable power-profiles-daemon, iio-sensor-proxy
+│   └── dotfiles.sh   # copy dotfiles/* into the new user's home, chown
+└── dotfiles/         # plain Hyprland/waybar/kitty/mpv/fastfetch/zsh configs
 ```
 
-Each `lib/*.sh` file only defines functions; `install.sh` is the single place that decides
-the order they run in.
+Each `lib/*.sh` file only defines functions; each phase's `install.sh` is the single place
+that decides the order they run in.
+
+## Packages
+
+Phase 2 installs only what's necessary for a working Hyprland session — core desktop tools,
+the Hyprland/greetd/portal/pipewire stack, fonts, and the zsh+powerlevel10k shell — via a
+single `yay -S --needed` call (yay is bootstrapped first, and handles official-repo and
+AUR packages uniformly so nothing has to be pre-classified). No extras: no editors, office
+suite, media/creative apps, virtualization stack, or Waydroid — see the constants block at
+the top of `phase2/install.sh` for the exact list.
 
 ## Testing
 
@@ -62,5 +86,6 @@ cloning from inside the ISO needs no authentication.
 
 ## Status
 
-- Phase 1: implemented, not yet run end-to-end in a VM.
-- Phase 2: not started.
+- Phase 1: implemented and proven end-to-end in a VM (partition/LUKS/pacstrap/boot all
+  confirmed working, including the LUKS passphrase prompt at boot).
+- Phase 2: implemented, not yet run end-to-end in a VM.

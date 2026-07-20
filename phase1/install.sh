@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
 # Phase 1: partition, encrypt, format, mount, pacstrap, install bootloader.
-# Run from a booted Arch ISO. Ends with a bootable, unconfigured base system
-# (no desktop, no extra user) — phase 2 handles the rest, separately.
+# Run from a booted Arch ISO. Chains into phase 2 (post-configuration) at
+# the end, same ISO session, before reboot.
 set -euo pipefail
 
 # --- constants (edit these to taste) ---
@@ -37,4 +37,5 @@ install_bootloader
 
 arch-chroot /mnt passwd
 
-log "Done. Remove installer media, then reboot."
+log "Phase 1 done — starting phase 2 (post-configuration)..."
+"$SCRIPT_DIR/../phase2/install.sh"
