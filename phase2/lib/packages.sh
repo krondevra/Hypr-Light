@@ -14,7 +14,10 @@ bootstrap_yay_and_install() {
     log "yay already installed, skipping bootstrap"
   else
     log "Bootstrapping yay as $USERNAME (makepkg refuses to run as root)..."
-    arch-chroot /mnt su - "$USERNAME" -c '
+    # -s /bin/bash: the user's configured login shell (zsh) isn't installed
+    # yet at this point (it's one of the packages installed below) — using
+    # `su -` as-is would try to exec that not-yet-existing shell and fail.
+    arch-chroot /mnt su -s /bin/bash -l "$USERNAME" -c '
       set -e
       cd /tmp
       git clone https://aur.archlinux.org/yay.git
@@ -24,5 +27,5 @@ bootstrap_yay_and_install() {
   fi
 
   log "Installing package list: ${PACKAGES[*]}"
-  arch-chroot /mnt su - "$USERNAME" -c "yay -S --needed --noconfirm ${PACKAGES[*]}"
+  arch-chroot /mnt su -s /bin/bash -l "$USERNAME" -c "yay -S --needed --noconfirm ${PACKAGES[*]}"
 }
