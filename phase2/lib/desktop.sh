@@ -10,7 +10,7 @@ configure_desktop() {
 vt = 1
 
 [default_session]
-command = "Hyprland"
+command = "start-hyprland"
 user = "$USERNAME"
 EOF
   log "Written config:"
