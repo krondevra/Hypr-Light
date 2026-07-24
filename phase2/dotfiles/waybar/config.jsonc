@@ -87,9 +87,9 @@
         "format-linked": "",
         "format-disconnected": "",
         "format-disabled": "",
-        "tooltip-format": "{ifname} via {gwaddr}",
-        "tooltip-format-wifi": "{essid} ({signalStrength}%)",
-        "tooltip-format-ethernet": "{ifname}: {ipaddr}/{cidr}",
+        "tooltip-format": "Network",
+        "tooltip-format-wifi": "Wi-Fi connected",
+        "tooltip-format-ethernet": "Ethernet connected",
         "tooltip-format-disconnected": "Disconnected"
     },
 
