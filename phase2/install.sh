@@ -28,6 +28,8 @@ PACKAGES=(
   power-profiles-daemon iio-sensor-proxy brightnessctl lm_sensors
   # system utilities
   usbutils rsync jq exfatprogs
+  # NPU status widget (waybar custom/npu)
+  xrt xrt-plugin-amdxdna
 )
 # ----------------------------------------
 

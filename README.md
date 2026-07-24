@@ -85,8 +85,9 @@ that decides the order they run in.
 
 Phase 2 installs only what's necessary for a working Hyprland session — core desktop tools,
 the Hyprland/greetd/portal/pipewire stack (with Qt-on-Wayland compatibility), idle/lock/polkit
-session essentials, fonts, the zsh+powerlevel10k shell, and a handful of laptop-hardware and
-system utilities (brightness, sensors, USB info, sync, JSON, exFAT) — via a single
+session essentials, fonts, the zsh+powerlevel10k shell, a handful of laptop-hardware and
+system utilities (brightness, sensors, USB info, sync, JSON, exFAT), and the AMD XDNA/NPU
+tools (`xrt`, `xrt-plugin-amdxdna`) backing waybar's NPU status widget — via a single
 `yay -S --needed` call (yay is bootstrapped first, and handles official-repo and AUR packages
 uniformly so nothing has to be pre-classified). Still "necessary only", not "nice to have":
 these are session-readiness packages, not full applications — no editors, office suite,

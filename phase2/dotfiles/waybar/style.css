@@ -1,78 +1,55 @@
 * {
-  font-family: "JetBrainsMono Nerd Font", sans-serif;
-  font-size: 13px;
+    font-family: "JetBrainsMono Nerd Font";
+    font-size: 13px;
+    min-height: 0;
 }
 
 window#waybar {
-  background: rgba(43,48,59,0.6);
-  color: #e6e6e6;
+    background-color: rgba(17, 17, 27, 0.85);
+    color: #cdd6f4;
 }
 
-#clock,
-#battery,
-#network,
-#pulseaudio,
-#tray,
-#power-profiles-daemon,
-#backlight,
-#keyboard-state,
-#language,
-#custom-power {
-  padding: 0 10px;
-}
-
-#cpu,
-#memory,
-#temperature,
-#custom-igpu,
-#custom-egpu.connected {
-  padding: 0 8px;
-  margin: 0;
-  border-radius: 6px;
-  font-weight: 500;
-}
-
-#cpu { background: rgba(46,204,113,0.25); }
-#memory { background: rgba(155,89,182,0.25); }
-#temperature { background: rgba(240,147,43,0.25); }
-#temperature.critical { background: rgba(235,77,75,0.35); }
-#custom-igpu { background: rgba(80,120,200,0.25); }
-#custom-egpu.connected { background: rgba(200,120,80,0.25); }
-
-#custom-egpu.disconnected {
-  opacity: 0;
-  padding: 0;
-  margin: 0;
-  min-width: 0;
-}
-
-#clock {
-  background: rgba(100,114,125,0.35);
-  border-radius: 6px;
-  margin: 0 4px;
-}
-
+/* Workspaces: numbers always visible, red indicator fades in/out under the active one */
 #workspaces {
-  background: rgba(100,114,125,0.35);
-  border-radius: 6px;
-  margin: 0 4px;
-  padding: 0 6px;
+    padding: 0 8px;
 }
 
 #workspaces button {
-  background: transparent;
-  border: none;
-  padding: 0 6px;
-  color: #ff5555;
-  font-weight: 500;
+    padding: 0 8px;
+    color: #6c7086;
+    background: transparent;
+    border: none;
+    border-bottom: 2px solid transparent;
+    transition: border-color 180ms ease-out, color 180ms ease-out;
 }
 
 #workspaces button.active {
-  color: #ffffff;
-  font-weight: 700;
+    color: #cdd6f4;
+    border-bottom: 2px solid #f38ba8;
 }
 
 #workspaces button:hover {
-  background: rgba(255,255,255,0.15);
-  border-radius: 4px;
+    color: #cdd6f4;
+}
+
+/* Right-side modules */
+#clock,
+#cpu,
+#memory,
+#temperature,
+#battery,
+#tray,
+#custom-npu,
+#custom-power-profile {
+    padding: 0 10px;
+    color: #cdd6f4;
+}
+
+#battery.warning {
+    color: #f9e2af;
+}
+
+#battery.critical,
+#temperature.critical {
+    color: #f38ba8;
 }
