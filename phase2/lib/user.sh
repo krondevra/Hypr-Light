@@ -6,7 +6,7 @@ create_user() {
     log "User $USERNAME already exists, skipping useradd"
   else
     log "Creating user $USERNAME..."
-    arch-chroot /mnt useradd -m -G wheel -s /usr/bin/zsh "$USERNAME"
+    arch-chroot /mnt useradd -m -G wheel,input -s /usr/bin/zsh "$USERNAME"
   fi
 
   log "Enabling sudo for the wheel group..."
