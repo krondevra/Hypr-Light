@@ -6,7 +6,7 @@
 
     "modules-left": ["hyprland/workspaces"],
     "modules-center": ["cpu", "memory", "temperature", "custom/gpu", "custom/npu"],
-    "modules-right": ["battery", "bluetooth", "backlight", "network", "clock", "tray"],
+    "modules-right": ["custom/battery", "bluetooth", "backlight", "network", "clock", "tray"],
 
     "hyprland/workspaces": {
         "format": "{id}",
@@ -52,16 +52,12 @@
         "interval": 1
     },
 
-    "battery": {
-        "states": {
-            "warning": 30,
-            "critical": 15
-        },
-        "format": "{icon} {capacity}%",
-        "format-icons": ["", "", "", "", ""],
-        "format-charging": "󰂄 {capacity}%",
+    "custom/battery": {
+        "exec": "~/.config/waybar/scripts/waybar-battery.sh",
         "on-click": "~/.config/waybar/scripts/waybar-power-profile.sh --cycle",
-        "tooltip-format": "Battery: {capacity}% — click to cycle power profile"
+        "interval": 30,
+        "return-type": "json",
+        "tooltip": true
     },
 
     "bluetooth": {
