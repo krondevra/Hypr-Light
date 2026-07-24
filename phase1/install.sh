@@ -13,7 +13,7 @@ BASE_PACKAGES=(base linux linux-firmware btrfs-progs cryptsetup grub networkmana
 
 SCRIPT_DIR="$(cd -- "$(dirname -- "${BASH_SOURCE[0]}")" && pwd)"
 
-for module in common disk partition luks filesystem pacstrap bootloader; do
+for module in common disk partition luks filesystem pacstrap bootloader grub; do
   # shellcheck source=/dev/null
   source "$SCRIPT_DIR/lib/$module.sh"
 done
@@ -33,6 +33,7 @@ setup_filesystems
 run_pacstrap
 configure_base_system
 configure_luks_boot
+configure_grub_extras
 install_bootloader
 
 arch-chroot /mnt passwd

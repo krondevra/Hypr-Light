@@ -40,6 +40,16 @@ don't fit. The username and package list are hardcoded constants at the top of
 GPT, LUKS-encrypted root, btrfs with `@` and `@home` subvolumes (`zstd` compression). Same
 scheme on UEFI and BIOS, with an extra `bios_grub` partition added on BIOS systems.
 
+## Console rotation
+
+This build targets a specific rotated-panel device (a GPD Pocket-style machine with a
+1600x2560 portrait panel). `phase1/lib/grub.sh` unconditionally sets `GRUB_TIMEOUT=0` and
+appends `fbcon=rotate:1` to `GRUB_CMDLINE_LINUX_DEFAULT` in the target's `/etc/default/grub`,
+so the text-mode console framebuffer is pre-rotated to match the panel before Hyprland's own
+`monitor=...,transform,3` (`phase2/dotfiles/hypr/hyprland.conf`) takes over post-login. If
+you're installing on non-rotated hardware, drop the `configure_grub_extras` call in
+`phase1/install.sh` before running.
+
 ## Repo structure
 
 ```
@@ -52,7 +62,8 @@ phase1/
     ├── luks.sh       # LUKS format + open
     ├── filesystem.sh # mkfs.fat32/btrfs, @/@home subvolumes, mount
     ├── pacstrap.sh   # pacstrap + genfstab
-    └── bootloader.sh # hostname/timezone/locale, LUKS-aware initramfs, grub install (UEFI/BIOS)
+    ├── bootloader.sh # hostname/timezone/locale, LUKS-aware initramfs, grub install (UEFI/BIOS)
+    └── grub.sh       # GRUB_TIMEOUT=0 + fbcon=rotate:1 rotated-panel console tweak
 
 phase2/
 ├── install.sh       # entrypoint — USERNAME + package list constants, sources lib/*.sh
@@ -73,11 +84,14 @@ that decides the order they run in.
 ## Packages
 
 Phase 2 installs only what's necessary for a working Hyprland session — core desktop tools,
-the Hyprland/greetd/portal/pipewire stack, fonts, and the zsh+powerlevel10k shell — via a
-single `yay -S --needed` call (yay is bootstrapped first, and handles official-repo and
-AUR packages uniformly so nothing has to be pre-classified). No extras: no editors, office
-suite, media/creative apps, virtualization stack, or Waydroid — see the constants block at
-the top of `phase2/install.sh` for the exact list.
+the Hyprland/greetd/portal/pipewire stack (with Qt-on-Wayland compatibility), idle/lock/polkit
+session essentials, fonts, the zsh+powerlevel10k shell, and a handful of laptop-hardware and
+system utilities (brightness, sensors, USB info, sync, JSON, exFAT) — via a single
+`yay -S --needed` call (yay is bootstrapped first, and handles official-repo and AUR packages
+uniformly so nothing has to be pre-classified). Still "necessary only", not "nice to have":
+these are session-readiness packages, not full applications — no editors, office suite,
+media/creative apps, virtualization stack, or Waydroid — see the constants block at the top
+of `phase2/install.sh` for the exact list.
 
 ## Diagnostics
 
@@ -96,4 +110,8 @@ cloning from inside the ISO needs no authentication.
 
 - Phase 1: implemented and proven end-to-end in a VM (partition/LUKS/pacstrap/boot all
   confirmed working, including the LUKS passphrase prompt at boot).
-- Phase 2: implemented, not yet run end-to-end in a VM.
+- Phase 2: implemented, confirmed reaching Hyprland with a clean `hyprctl configerrors` in a
+  VM (via `hypr-check`). Not yet re-tested with this pass's GRUB/package changes.
+- Known follow-up: `hypridle`/`hyprlock`/`hyprpolkitagent` are installed by phase 2 but not
+  yet wired into `hyprland.conf` via `exec-once` — idle/lock behavior and the polkit auth
+  agent won't actually run in a session until that wiring is added.

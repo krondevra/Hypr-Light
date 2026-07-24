@@ -16,13 +16,18 @@ PACKAGES=(
   # desktop stack (desktop-hyprland.nix / sound.nix / implicit program installs)
   hyprland greetd xdg-desktop-portal xdg-desktop-portal-hyprland
   xdg-desktop-portal-gtk polkit dbus pipewire pipewire-pulse wireplumber
-  rtkit mpv
+  rtkit mpv qt5-wayland qt6-wayland
+  # session essentials (idle/lock/polkit) - packages only; exec-once wiring
+  # into hyprland.conf is a follow-up, see .tmp/notes/initial-setup-analysis.md
+  hypridle hyprlock hyprpolkitagent
   # fonts
   ttf-jetbrains-mono-nerd
   # shell
   zsh zsh-autosuggestions zsh-syntax-highlighting zsh-theme-powerlevel10k
-  # laptop-hardware services
-  power-profiles-daemon iio-sensor-proxy
+  # laptop-hardware services + utilities
+  power-profiles-daemon iio-sensor-proxy brightnessctl lm_sensors
+  # system utilities
+  usbutils rsync jq exfatprogs
 )
 # ----------------------------------------
 
