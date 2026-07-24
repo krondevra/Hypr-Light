@@ -67,6 +67,8 @@ phase1/
 
 phase2/
 ├── install.sh       # entrypoint — USERNAME + package list constants, sources lib/*.sh
+├── remount.sh       # re-mount an already phase1'd disk (ISO), for re-running phase2 alone
+├── dev-sync.sh      # rsync dotfiles onto an already-installed system + restart daemons
 ├── lib/
 │   ├── common.sh     # logging, require_root
 │   ├── user.sh       # useradd (wheel, zsh shell), sudoers, sets the user's password
@@ -106,6 +108,11 @@ a terminal inside the session — it's not wired to run automatically.
 This is developed and tested in a VM, not on the host: boot the Arch ISO in a VM, `git clone`
 this repo from inside the guest, and run `phase1/install.sh` there. The repo is public, so
 cloning from inside the ISO needs no authentication.
+
+Once installed, iterating on dotfiles/config doesn't need a reinstall: `git pull` inside the
+VM, then run `phase2/dev-sync.sh` (as your normal user, not root) to rsync `phase2/dotfiles/*`
+onto your real `$HOME` and restart `waybar`/`hypridle`/`hyprpolkitagent`. Pass `--packages` to
+also `yay -S --needed` whatever's currently in `phase2/install.sh`'s `PACKAGES` array.
 
 ## Status
 
