@@ -113,6 +113,10 @@ cloning from inside the ISO needs no authentication.
 - Phase 2: implemented and confirmed in a VM — clean `hyprctl configerrors` (via `hypr-check`),
   console rotation and `start-hyprland` launch both confirmed on real rotated-panel hardware,
   and the expanded session-package list installs cleanly.
-- `hypridle`/`hyprlock`/`hyprpolkitagent` are now wired into `hyprland.conf` via `exec-once`
-  (idle-timeout lock/DPMS and the polkit agent). Not yet re-tested in a VM since this wiring
-  was added.
+- `hypridle`/`hyprlock`/`hyprpolkitagent` wired into `hyprland.conf` via `exec-once` and
+  confirmed working end-to-end in a VM (idle-timeout lock via `hyprlock`, DPMS, polkit agent).
+- `waybar` was missing an `exec-once` entirely (installed, fully configured, never launched) —
+  now added. `kitty`/`zsh` confirmed working; `waybar` fix not yet re-tested.
+- `hyprpaper` intentionally has no `exec-once` yet — its dotfile ships as an empty template
+  (no wallpaper image is bundled in this repo), so nothing to launch until a wallpaper path is
+  added; see `phase2/dotfiles/hypr/hyprpaper.conf`.
