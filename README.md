@@ -110,8 +110,9 @@ cloning from inside the ISO needs no authentication.
 
 - Phase 1: implemented and proven end-to-end in a VM (partition/LUKS/pacstrap/boot all
   confirmed working, including the LUKS passphrase prompt at boot).
-- Phase 2: implemented, confirmed reaching Hyprland with a clean `hyprctl configerrors` in a
-  VM (via `hypr-check`). Not yet re-tested with this pass's GRUB/package changes.
-- Known follow-up: `hypridle`/`hyprlock`/`hyprpolkitagent` are installed by phase 2 but not
-  yet wired into `hyprland.conf` via `exec-once` — idle/lock behavior and the polkit auth
-  agent won't actually run in a session until that wiring is added.
+- Phase 2: implemented and confirmed in a VM — clean `hyprctl configerrors` (via `hypr-check`),
+  console rotation and `start-hyprland` launch both confirmed on real rotated-panel hardware,
+  and the expanded session-package list installs cleanly.
+- `hypridle`/`hyprlock`/`hyprpolkitagent` are now wired into `hyprland.conf` via `exec-once`
+  (idle-timeout lock/DPMS and the polkit agent). Not yet re-tested in a VM since this wiring
+  was added.
