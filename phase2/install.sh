@@ -12,7 +12,7 @@ PACKAGES=(
   # core desktop (packages.nix)
   curl dunst fastfetch firefox git grim hyprpaper kitty pavucontrol slurp
   swayimg tree neovim yazi waybar wget wl-clipboard wofi
-  network-manager-applet blueman
+  network-manager-applet blueman libnotify
   # desktop stack (desktop-hyprland.nix / sound.nix / implicit program installs)
   hyprland greetd xdg-desktop-portal xdg-desktop-portal-hyprland
   xdg-desktop-portal-gtk polkit dbus pipewire pipewire-pulse wireplumber

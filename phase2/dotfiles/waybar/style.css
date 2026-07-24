@@ -9,38 +9,44 @@ window#waybar {
     color: #cdd6f4;
 }
 
-/* Workspaces: numbers always visible, red indicator fades in/out under the active one */
+/* Workspaces: active workspace fills as a solid red circle, fading in/out */
 #workspaces {
     padding: 0 8px;
 }
 
 #workspaces button {
-    padding: 0 8px;
+    padding: 0;
+    margin: 4px 3px;
+    min-width: 22px;
+    min-height: 22px;
+    border-radius: 50%;
     color: #6c7086;
-    background: transparent;
+    background-color: transparent;
     border: none;
-    border-bottom: 2px solid transparent;
-    transition: border-color 180ms ease-out, color 180ms ease-out;
+    transition: background-color 200ms ease-out, color 200ms ease-out;
 }
 
 #workspaces button.active {
-    color: #cdd6f4;
-    border-bottom: 2px solid #f38ba8;
+    color: #11111b;
+    background-color: #f38ba8;
 }
 
 #workspaces button:hover {
-    color: #cdd6f4;
+    background-color: rgba(243, 139, 168, 0.35);
 }
 
-/* Right-side modules */
+/* Center/right-side modules */
 #clock,
 #cpu,
 #memory,
 #temperature,
 #battery,
+#bluetooth,
+#backlight,
+#network,
 #tray,
-#custom-npu,
-#custom-power-profile {
+#custom-gpu,
+#custom-npu {
     padding: 0 10px;
     color: #cdd6f4;
 }
