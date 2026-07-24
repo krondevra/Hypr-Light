@@ -34,6 +34,21 @@ journalctl -p 3 -b --no-pager || echo "journalctl failed"
 
 section "greetd log (this boot)"
 journalctl -u greetd -b --no-pager || echo "no greetd log for this boot"
+
+section "waybar log (filtered, this boot)"
+if [[ -f /tmp/waybar.log ]]; then
+  grep -iE 'warning|error|bar configured' /tmp/waybar.log || echo "no warnings/errors found"
+else
+  echo "/tmp/waybar.log not found - run phase2/dev-sync.sh or redirect waybar's output there"
+fi
+
+section "hypridle log (filtered, this boot)"
+if [[ -f /tmp/hypridle.log ]]; then
+  grep -iE 'warning|error|inhibited sleep|releasing the sleep|registered timeout|wayland session' /tmp/hypridle.log \
+    | grep -v -iE 'got iface|bound to' || echo "no warnings/errors found"
+else
+  echo "/tmp/hypridle.log not found"
+fi
 EOF
   chmod +x /mnt/usr/local/bin/hypr-check
 }

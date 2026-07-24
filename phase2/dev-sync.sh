@@ -33,6 +33,12 @@ cp "$SRC/zsh/.p10k.zsh" "$HOME/.p10k.zsh"
 
 chmod +x "$HOME/.config/waybar/scripts/"*.sh
 
+log "Refreshing hypr-check..."
+sed -n "/cat > \/mnt\/usr\/local\/bin\/hypr-check <<'EOF'/,/^EOF$/p" "$SCRIPT_DIR/lib/diagnostics.sh" \
+  | sed '1d;$d' \
+  | sudo tee /usr/local/bin/hypr-check > /dev/null
+sudo chmod +x /usr/local/bin/hypr-check
+
 if [[ "${1:-}" == "--packages" ]]; then
   log "Installing PACKAGES from phase2/install.sh..."
   # Extracts the PACKAGES=( ... ) block verbatim and sources it - depends on
