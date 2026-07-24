@@ -7,4 +7,4 @@ else
   usage=0
 fi
 
-printf '{"text": "GPU %s%%", "tooltip": "GPU usage"}\n' "$usage"
+printf '{"text": " %s%%", "tooltip": "GPU usage"}\n' "$usage"

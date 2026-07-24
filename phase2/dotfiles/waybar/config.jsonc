@@ -17,18 +17,19 @@
     },
 
     "cpu": {
-        "format": " {usage}%",
+        "format": " {usage}%",
         "interval": 3
     },
 
     "memory": {
-        "format": " {percentage}%",
+        "format": "󰍛 {percentage}%",
         "interval": 3
     },
 
     "temperature": {
         "critical-threshold": 85,
-        "format": " {temperatureC}°C",
+        "format": "{icon} {temperatureC}°C",
+        "format-icons": ["", "", ""],
         "interval": 3
     },
 
@@ -42,7 +43,7 @@
     "custom/npu": {
         "exec": "~/.config/waybar/scripts/waybar-npu.sh",
         "interval": 5,
-        "return-type": "",
+        "return-type": "json",
         "tooltip": true
     },
 
@@ -57,15 +58,15 @@
             "critical": 15
         },
         "format": "{icon} {capacity}%",
-        "format-icons": ["", "", "", "", ""],
-        "format-charging": " {capacity}%",
+        "format-icons": ["", "", "", "", ""],
+        "format-charging": "󰂄 {capacity}%",
         "on-click": "~/.config/waybar/scripts/waybar-power-profile.sh --cycle",
         "tooltip-format": "Battery: {capacity}% — click to cycle power profile"
     },
 
     "bluetooth": {
-        "format": " {status}",
-        "format-connected": " {device_alias}",
+        "format": " {status}",
+        "format-connected": " {device_alias}",
         "format-disabled": "",
         "on-click": "blueman-manager",
         "tooltip-format": "{controller_alias}\t{controller_address}"
@@ -73,14 +74,14 @@
 
     "backlight": {
         "format": "{icon} {percent}%",
-        "format-icons": ["", "", "", "", "", "", "", "", ""]
+        "format-icons": ["󰃚", "󰃛", "󰃜", "󰃝", "󰃞", "󰃟", "󰃠"]
     },
 
     "network": {
-        "format-wifi": "",
-        "format-ethernet": "{ipaddr}/{cidr} ",
-        "tooltip-format": "{ifname} via {gwaddr} ",
-        "format-linked": "{ifname} (No IP) ",
+        "format-wifi": " {signalStrength}%",
+        "format-ethernet": " {ipaddr}/{cidr}",
+        "tooltip-format": "{ifname} via {gwaddr}",
+        "format-linked": " {ifname} (No IP)",
         "format-disconnected": "Disconnected ⚠",
         "format-alt": "{ifname}: {ipaddr}/{cidr}"
     },
