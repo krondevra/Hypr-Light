@@ -28,7 +28,7 @@ PACKAGES=(
 
 SCRIPT_DIR="$(cd -- "$(dirname -- "${BASH_SOURCE[0]}")" && pwd)"
 
-for module in common user packages desktop services dotfiles; do
+for module in common user packages desktop services dotfiles diagnostics; do
   # shellcheck source=/dev/null
   source "$SCRIPT_DIR/lib/$module.sh"
 done
@@ -42,5 +42,6 @@ bootstrap_yay_and_install
 configure_desktop
 enable_services
 deploy_dotfiles
+install_diagnostics
 
 log "Phase 2 done. Reboot into your new system."

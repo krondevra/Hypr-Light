@@ -62,7 +62,8 @@ phase2/
 │   ├── packages.sh   # resolv.conf into /mnt, bootstrap yay, install the package list
 │   ├── desktop.sh    # /etc/greetd/config.toml (autologin into Hyprland), enable greetd
 │   ├── services.sh   # enable power-profiles-daemon, iio-sensor-proxy
-│   └── dotfiles.sh   # copy dotfiles/* into the new user's home, chown
+│   ├── dotfiles.sh   # copy dotfiles/* into the new user's home, chown
+│   └── diagnostics.sh # installs `hypr-check`, a manual post-login health check
 └── dotfiles/         # plain Hyprland/waybar/kitty/mpv/fastfetch/zsh configs
 ```
 
@@ -77,6 +78,13 @@ single `yay -S --needed` call (yay is bootstrapped first, and handles official-r
 AUR packages uniformly so nothing has to be pre-classified). No extras: no editors, office
 suite, media/creative apps, virtualization stack, or Waydroid — see the constants block at
 the top of `phase2/install.sh` for the exact list.
+
+## Diagnostics
+
+Phase 2 installs `hypr-check`, a system-wide command for a quick health check after logging
+into Hyprland: Hyprland config parse errors (`hyprctl configerrors`), failed systemd units,
+error-priority journal lines from the current boot, and the greetd log. Run it manually from
+a terminal inside the session — it's not wired to run automatically.
 
 ## Testing
 
