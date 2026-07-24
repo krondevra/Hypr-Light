@@ -6,7 +6,7 @@
 
     "modules-left": ["hyprland/workspaces"],
     "modules-center": ["cpu", "memory", "temperature", "custom/gpu", "custom/npu"],
-    "modules-right": ["clock", "battery", "bluetooth", "backlight", "network", "tray"],
+    "modules-right": ["battery", "bluetooth", "backlight", "network", "clock", "tray"],
 
     "hyprland/workspaces": {
         "format": "{id}",
@@ -65,11 +65,15 @@
     },
 
     "bluetooth": {
-        "format": " {status}",
-        "format-connected": " {device_alias}",
-        "format-disabled": "",
+        "format": "",
+        "format-connected": "",
+        "format-disabled": "",
+        "format-off": "",
+        "format-on": "",
+        "format-no-controller": "",
         "on-click": "blueman-manager",
-        "tooltip-format": "{controller_alias}\t{controller_address}"
+        "tooltip-format": "{controller_alias}\t{controller_address}",
+        "tooltip-format-connected": "{controller_alias}\t{controller_address}\n\n{device_enumerate}"
     },
 
     "backlight": {
@@ -78,12 +82,15 @@
     },
 
     "network": {
-        "format-wifi": " {signalStrength}%",
-        "format-ethernet": " {ipaddr}/{cidr}",
+        "format-wifi": "",
+        "format-ethernet": "",
+        "format-linked": "",
+        "format-disconnected": "",
+        "format-disabled": "",
         "tooltip-format": "{ifname} via {gwaddr}",
-        "format-linked": " {ifname} (No IP)",
-        "format-disconnected": "Disconnected ⚠",
-        "format-alt": "{ifname}: {ipaddr}/{cidr}"
+        "tooltip-format-wifi": "{essid} ({signalStrength}%)",
+        "tooltip-format-ethernet": "{ifname}: {ipaddr}/{cidr}",
+        "tooltip-format-disconnected": "Disconnected"
     },
 
     "tray": {

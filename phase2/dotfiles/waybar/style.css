@@ -59,3 +59,17 @@ window#waybar {
 #temperature.critical {
     color: #f38ba8;
 }
+
+/* Bluetooth/network: icon-only, gray when inactive, white when active/connected */
+#bluetooth,
+#network {
+    color: #6c7086;
+}
+
+#bluetooth.on,
+#bluetooth.connected,
+#network.wifi,
+#network.ethernet,
+#network.linked {
+    color: #cdd6f4;
+}
